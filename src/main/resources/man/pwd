@@ -1,0 +1,13 @@
+
+NAME
+       pwd - Working directory path
+       
+SYNOPSIS
+       pwd
+       
+
+DESCRIPTION
+       Returns the absolute path to the directory in which CryptoConsoul is
+       launched. Equivalent to System.getProperty("user.dir"). The intent
+       is to provide a quick way for users to provide file paths if the
+       user decides to drop target files into the CryptoConsoul directory.

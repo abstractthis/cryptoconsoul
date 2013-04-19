@@ -1,0 +1,10 @@
+
+NAME
+       checkStrength - Checks encryption strength
+       
+SYNOPSIS
+       checkStrength
+       
+
+DESCRIPTION
+       Indicates whether the system has full strength encryption capability.

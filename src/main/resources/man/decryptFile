@@ -1,0 +1,29 @@
+
+NAME
+       decryptFile - Decrypts a file
+       
+SYNOPSIS
+       decryptFile [-infile=<filename>] [-outfile=<filename>] [-decompress=true|false|yes|no] [-rmin=true|false|yes|no]
+       
+
+DESCRIPTION
+       Decrypts a file using one of the supported algorithms, which is
+       currently ONLY AES, and optionally decompressing the file after
+       decryption.
+       
+
+OPTIONS
+        -infile=<filename>
+             Provides the full path to the file that should be decrypted.
+             
+        -outfile=<filename>
+             Provides the full path to the resulting decrypted file.
+             
+        -decompress=true|false|yes|no
+             If true|yes is provided the file specified by -file will be
+             decompressed after being decrypted. The default is to
+             decompress.
+             
+        -rmin=true|false|yes|no
+             If true|yes the source file will be deleted after decryption
+             is completed. The default is NOT to delete input.

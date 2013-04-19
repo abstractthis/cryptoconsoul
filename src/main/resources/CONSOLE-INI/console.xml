@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<console-app>
+
+	<title>CryptoConsoul</title>
+	<prompt>crypto</prompt>
+	
+	<!-- Entities that want to be notified when the application is
+	     initialized and when the application is deinitialized -->
+	<listener>org.caiedea.cryptoconsoul.core.ini.WelcomeScreenInitializer</listener>
+	
+	<!-- Handles the execution of input to the console application -->
+	<executor>
+		<exe-class>org.caiedea.cryptoconsoul.core.CryptoConsoulExecutor</exe-class>
+		<command-config>CONSOLE-INI/commands/commands.xml</command-config>
+	</executor>
+	
+</console-app>

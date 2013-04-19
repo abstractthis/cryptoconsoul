@@ -1,0 +1,29 @@
+
+NAME
+       encryptFile - Encrypts a file
+       
+SYNOPSIS
+       encryptFile [-infile=<filename>] [-outfile=<filename>] [-compress=true|false|yes|no] [-rmin=true|false|yes|no]
+       
+
+DESCRIPTION
+       Encrypt a file using one of the supported algorithms, which is
+       currently ONLY AES, and optionally compressing the file before
+       encrypting.
+       
+
+OPTIONS
+        -infile=<filename>
+             Provides the full path to the file that should be encrypted.
+             
+        -outfile=<filename>
+             Provides the full path to the resulting encrypted file.
+             
+        -compress=true|false|yes|no
+             If true|yes is provided the file specified by -file will be
+             compressed before being encrypted. The default is to
+             compress.
+             
+        -rmin=true|false|yes|no
+             If true|yes the source file will be deleted after encryption
+             is completed. The default is NOT to delete input.

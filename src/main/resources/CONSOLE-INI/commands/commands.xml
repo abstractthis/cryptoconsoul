@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<commands>
+	<command name="about" class="org.caiedea.cryptoconsoul.command.AboutCommand" />
+	<command name="checkStrength" class="org.caiedea.cryptoconsoul.command.CheckStrengthCommand" />
+	<command name="encryptFile" class="org.caiedea.cryptoconsoul.command.EncryptFileCommand" />
+	<command name="decryptFile" class="org.caiedea.cryptoconsoul.command.DecryptFileCommand" />
+	<command name="pwd" class="org.caiedea.cryptoconsoul.command.PwdCommand" />
+</commands>
