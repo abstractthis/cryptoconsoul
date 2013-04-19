@@ -10,6 +10,7 @@ import com.abstractthis.consoul.ConsoleOutPipe;
 import com.abstractthis.consoul.commands.ConsoleCommand;
 import com.abstractthis.consoul.commands.command.Command;
 import com.abstractthis.consoul.commands.exception.CommandPerformException;
+import com.abstractthis.consoul.widgets.BusyWidget;
 
 public class DecryptFileCommand implements Command {
 	private static final String MAN_PAGE_PATH = "man/decryptFile";
@@ -47,16 +48,21 @@ public class DecryptFileCommand implements Command {
 		boolean decompressResult = Boolean.valueOf(argMap.get(DECOMPRESS_ARG));
 		boolean removeInput = Boolean.valueOf(argMap.get(REMOVE_INPUT_ARG));
 		ConsoleOutPipe out = cmd.getCommandOutputPipe();
+		BusyWidget spinner = new BusyWidget();
 		try {
+			out.displayWidget(spinner);
 			DecryptionService service = new DecryptionService();
 			service.decryptFile(targetFilePath, resultFilePath, decompressResult, removeInput);
+			spinner.stop();
 			out.sendAndFlush("Decryption complete. File Location: " + resultFilePath);
 		}
 		catch(RuntimeException re) {
+			spinner.stop();
 			out.useNewline(true);
 			out.send("Problems performing decryption!!");
 			out.send(re.getMessage());
 			out.flush();
+			throw new CommandPerformException(re);
 		}
 
 	}

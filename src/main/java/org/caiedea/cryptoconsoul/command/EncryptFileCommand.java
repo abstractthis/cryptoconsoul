@@ -10,6 +10,7 @@ import com.abstractthis.consoul.ConsoleOutPipe;
 import com.abstractthis.consoul.commands.ConsoleCommand;
 import com.abstractthis.consoul.commands.command.Command;
 import com.abstractthis.consoul.commands.exception.CommandPerformException;
+import com.abstractthis.consoul.widgets.BusyWidget;
 
 public class EncryptFileCommand implements Command {
 	private static final String MAN_PAGE_PATH = "man/encryptFile";
@@ -47,16 +48,21 @@ public class EncryptFileCommand implements Command {
 		boolean compressTargetFirst = Boolean.valueOf(argMap.get(COMPRESS_ARG));
 		boolean removeInput = Boolean.valueOf(argMap.get(REMOVE_INPUT_ARG));
 		ConsoleOutPipe out = cmd.getCommandOutputPipe();
+		BusyWidget spinner = new BusyWidget();
 		try {
+			out.displayWidget(spinner);
 			EncryptionService service = new EncryptionService();
 			service.encryptFile(targetFilePath, resultFilePath, compressTargetFirst, removeInput);
+			spinner.stop();
 			out.sendAndFlush("Encryption complete. File Location: " + resultFilePath);
 		}
 		catch(RuntimeException e) {
+			spinner.stop();
 			out.useNewline(true);
 			out.send("Problems performing encryption!!");
 			out.send(e.getMessage());
 			out.flush();
+			throw new CommandPerformException(e);
 		}
 	}
 
