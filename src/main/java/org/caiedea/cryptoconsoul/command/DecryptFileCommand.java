@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.caiedea.cryptoconsoul.biz.DecryptionService;
-import org.caiedea.cryptoconsoul.util.Util;
+import org.caiedea.cryptoconsoul.util.ManualUtils;
 
 import com.abstractthis.consoul.ConsoleOutPipe;
 import com.abstractthis.consoul.commands.ConsoleCommand;
@@ -33,7 +33,7 @@ public class DecryptFileCommand implements Command {
 
 	@Override
 	public String getManual() {
-		return Util.getManPageFromFile(MAN_PAGE_PATH);
+		return ManualUtils.getManPageFromFile(MAN_PAGE_PATH);
 	}
 
 	@Override
