@@ -26,7 +26,7 @@ public class WelcomeScreenWidget implements Widget {
 			}
 		}
 		catch(IOException ioe) {
-			log.error("Problems writing out welcome banner!");
+			log.error("Problems writing out welcome banner! Location:" + WELCOME_SCREEN_PATH);
 		}
 		finally {
 			try {
