@@ -15,7 +15,7 @@ public class CheckStrengthCommand implements Command {
 	public String getManual() {
 		return ManualUtils.getManPageFromFile(MAN_PAGE_PATH);
 	}
-
+	
 	@Override
 	public String getUsage() {
 		return "checkStrength";
