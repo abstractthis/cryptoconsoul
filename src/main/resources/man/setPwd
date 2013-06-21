@@ -1,0 +1,11 @@
+
+NAME
+       setPassword - Sets the password to use for encryption/decryption
+       
+SYNOPSIS
+       setPassword [password]
+       
+
+DESCRIPTION
+       Allows the user to set the password that will be used for encryption
+       and decryption.
