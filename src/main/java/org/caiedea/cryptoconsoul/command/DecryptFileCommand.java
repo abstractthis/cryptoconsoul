@@ -18,7 +18,8 @@ public class DecryptFileCommand implements Command {
 	private static final String OUT_FILE_ARG = "-outfile";
 	private static final String DECOMPRESS_ARG = "-decompress";
 	private static final String REMOVE_INPUT_ARG = "-rmin";
-	private static final int MAX_ARG_COUNT = 4;
+	private static final String OVERRIDE_ARG = "-override";
+	private static final int MAX_ARG_COUNT = 5;
 	private static final int MIN_ARG_COUNT = 2;
 	
 	// Map of the argument values
@@ -29,6 +30,7 @@ public class DecryptFileCommand implements Command {
 		argMap.put(OUT_FILE_ARG, null);
 		argMap.put(DECOMPRESS_ARG, "true");
 		argMap.put(REMOVE_INPUT_ARG, "false");
+		argMap.put(OVERRIDE_ARG, "general");
 	}
 
 	@Override
@@ -47,12 +49,13 @@ public class DecryptFileCommand implements Command {
 		String resultFilePath = argMap.get(OUT_FILE_ARG);
 		boolean decompressResult = Boolean.valueOf(argMap.get(DECOMPRESS_ARG));
 		boolean removeInput = Boolean.valueOf(argMap.get(REMOVE_INPUT_ARG));
+		String override = argMap.get(OVERRIDE_ARG);
 		ConsoleOutPipe out = cmd.getCommandOutputPipe();
 		BusyWidget spinner = new BusyWidget();
 		try {
 			out.displayWidget(spinner);
 			DecryptionService service = new DecryptionService();
-			service.decryptFile(targetFilePath, resultFilePath, decompressResult, removeInput);
+			service.decryptFile(targetFilePath, resultFilePath, decompressResult, removeInput, override);
 			spinner.stop();
 			out.sendAndFlush("Decryption complete. File Location: " + resultFilePath);
 		}

@@ -8,6 +8,8 @@ import org.caiedea.cryptopression.decrypt.FilePassThroughDecryptor;
 import org.caiedea.cryptopression.decrypt.aes.FileAesDecryptor;
 import org.caiedea.cryptopression.decrypt.decompress.DecompressFileDecryptor;
 
+import com.abstractthis.consoul.ConsoleProperties;
+
 /**
  * Handles the interaction with the cryptopression library to perform
  * the decryption.
@@ -17,6 +19,7 @@ import org.caiedea.cryptopression.decrypt.decompress.DecompressFileDecryptor;
  */
 public class DecryptionService {
 	private static final String CRYPTO_LIB_INPUT_PROP_KEY = "cryptopression.keepRawInput";
+	private static final String CRYPTO_LIB_PWD_KEY = "cryptopression.password";
 	
 	/**
 	 * Decrypts the <code>File</code> located at <code>targetPath</code> and places
@@ -29,11 +32,23 @@ public class DecryptionService {
 	 * @param resultPath
 	 * @param decompress
 	 * @param rmInput
+	 * @param override
 	 */
-	public void decryptFile(String targetPath, String resultPath, boolean decompress, boolean rmInput) {
+	public void decryptFile(String targetPath, String resultPath, boolean decompress,
+			boolean rmInput, String override) {
+		ConsoleProperties conProps = ConsoleProperties.getConsoleProperties();
 		try {
+			if (override != null) {
+				String overrideValue = conProps.getProperty(override + ".override");
+				if (overrideValue == null) {
+					throw new RuntimeException("Override provided not found. Override: " + override);
+				}
+				Utils.propertyOverride(CRYPTO_LIB_PWD_KEY, overrideValue);
+			}
 			// If the input should be deleted set it so in the cryptopression lib
-			Utils.propertyOverride(CRYPTO_LIB_INPUT_PROP_KEY, "0");
+			if (rmInput) {
+				Utils.propertyOverride(CRYPTO_LIB_INPUT_PROP_KEY, "0");
+			}
 			if (decompress) {
 				this.decryptFileWithDecompression(targetPath, resultPath);
 			}
@@ -43,7 +58,12 @@ public class DecryptionService {
 		}
 		finally {
 			// Revert the change we made back to the default setting
-			Utils.propertyOverride(CRYPTO_LIB_INPUT_PROP_KEY, "1");
+			if (rmInput) {
+				Utils.propertyOverride(CRYPTO_LIB_INPUT_PROP_KEY, "1");
+			}
+			if (override != null) {
+				Utils.propertyOverride(CRYPTO_LIB_PWD_KEY, conProps.getProperty("general.override"));
+			}
 		}
 	}
 	
