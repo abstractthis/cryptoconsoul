@@ -29,7 +29,7 @@ public class DecryptFileCommand implements Command {
 		argMap.put(IN_FILE_ARG, null);
 		argMap.put(OUT_FILE_ARG, null);
 		argMap.put(DECOMPRESS_ARG, "true");
-		argMap.put(REMOVE_INPUT_ARG, "false");
+		argMap.put(REMOVE_INPUT_ARG, "true");
 		argMap.put(OVERRIDE_ARG, "general");
 	}
 
@@ -55,9 +55,9 @@ public class DecryptFileCommand implements Command {
 		try {
 			out.displayWidget(spinner);
 			DecryptionService service = new DecryptionService();
-			service.decryptFile(targetFilePath, resultFilePath, decompressResult, removeInput, override);
+			String resultLocation = service.decryptFile(targetFilePath, resultFilePath, decompressResult, removeInput, override);
 			spinner.stop();
-			out.sendAndFlush("Decryption complete. File Location: " + resultFilePath);
+			out.sendAndFlush("Decryption complete. File Location: " + resultLocation);
 		}
 		catch(RuntimeException re) {
 			spinner.stop();

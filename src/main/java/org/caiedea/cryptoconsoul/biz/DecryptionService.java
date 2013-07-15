@@ -34,7 +34,7 @@ public class DecryptionService {
 	 * @param rmInput
 	 * @param override
 	 */
-	public void decryptFile(String targetPath, String resultPath, boolean decompress,
+	public String decryptFile(String targetPath, String resultPath, boolean decompress,
 			boolean rmInput, String override) {
 		ConsoleProperties conProps = ConsoleProperties.getConsoleProperties();
 		try {
@@ -49,11 +49,27 @@ public class DecryptionService {
 			if (rmInput) {
 				Utils.propertyOverride(CRYPTO_LIB_INPUT_PROP_KEY, "0");
 			}
-			if (decompress) {
-				this.decryptFileWithDecompression(targetPath, resultPath);
+			File targetFile = new File(targetPath);
+			// Determine if the target is a directory and if so
+			// loop over all the files contained in the directory
+			// and decrypt them. This means that all the files contained
+			// in the directory should be encrypted files. Subdirectories
+			// will not be traversed.
+			if (targetFile.isDirectory()) {
+				File[] encFiles = targetFile.listFiles();
+				for(File encFile : encFiles) {
+					if (encFile.isFile()) {
+						String outName = this.getOutputName(targetPath, encFile.getName());
+						String outPath = resultPath != null && !"".equals(resultPath) ?
+								outName + "." + resultPath : outName;
+						this.processDirFile(encFile, outPath, decompress);
+					}
+				}
+				return targetPath + "/dec/*";
 			}
 			else {
-				this.decryptFileNoDecompression(targetPath, resultPath);
+				this.processFile(targetPath, resultPath, decompress);
+				return resultPath;
 			}
 		}
 		finally {
@@ -64,6 +80,29 @@ public class DecryptionService {
 			if (override != null) {
 				Utils.propertyOverride(CRYPTO_LIB_PWD_KEY, conProps.getProperty("general.override"));
 			}
+		}
+	}
+	
+	private String getOutputName(String rootDir, String inputName) {
+		File decDir = new File(rootDir + "/dec");
+		if (!decDir.exists()) {
+			decDir.mkdir();
+		}
+		int extIndex = inputName.lastIndexOf(".");
+		String outName = extIndex == -1 ? inputName : inputName.substring(0, extIndex);
+		return decDir.getAbsolutePath() + "/" + outName;
+	}
+	
+	private void processDirFile(File targetFile, String resultPath, boolean decompress) {
+		this.processFile(targetFile.getAbsolutePath(), resultPath, decompress);
+	}
+	
+	private void processFile(String targetPath, String resultPath, boolean decompress) {
+		if (decompress) {
+			this.decryptFileWithDecompression(targetPath, resultPath);
+		}
+		else {
+			this.decryptFileNoDecompression(targetPath, resultPath);
 		}
 	}
 	
