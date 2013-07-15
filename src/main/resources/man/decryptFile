@@ -26,4 +26,4 @@ OPTIONS
              
         -rmin=true|false|yes|no
              If true|yes the source file will be deleted after decryption
-             is completed. The default is NOT to delete input.
+             is completed. The default is to delete input.
