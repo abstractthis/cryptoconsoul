@@ -4,7 +4,7 @@
 
   <groupId>org.caiedea</groupId>
   <artifactId>cryptoconsoul</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.5</version>
   <packaging>jar</packaging>
 
   <name>cryptoconsoul</name>
@@ -25,7 +25,7 @@
     <dependency>
     	<groupId>com.abstractthis</groupId>
         <artifactId>consoul</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.1</version>
         <scope>compile</scope>
     </dependency>
     <!-- Cryptopression -->
